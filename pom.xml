@@ -90,6 +90,9 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+					<mainClass>
+						com.rsr.api_gateway.ApiGatewayApplication
+					</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>
