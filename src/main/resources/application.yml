@@ -23,24 +23,22 @@ spring:
             scope: openid
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/auth/realms/RockSolidRemedies
-            jwk-uri: http://localhost:8080/auth/realms/RockSolidRemedies/protocol/openid-connect/certs
+            issuer-uri: http://keycloak:8080/auth/realms/RockSolidRemedies
+            jwk-uri: http://keycloak:8080/auth/realms/RockSolidRemedies/protocol/openid-connect/certs
 
   cloud:
     gateway:
       routes:
         - id: client_admin_route
-          uri: http://localhost:8082
+          uri: http://product-microservice:8082
           predicates:
             - Path=/admin/product/**
           metadata:
             roles: client_admin
         - id: client_user_route
-          uri: http://localhost:8082
+          uri: http://product-microservice:8082
           predicates:
             - Path=/product/**
           metadata:
             roles: client_user
 
-server:
-  port: 8081
