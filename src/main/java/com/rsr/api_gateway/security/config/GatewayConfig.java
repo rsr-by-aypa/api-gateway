@@ -36,7 +36,7 @@ public class GatewayConfig {
     public RouteLocator myRoutes(RouteLocatorBuilder builder, WebClient.Builder webClientBuilder) {
         return builder.routes()
                 .route(p -> p.path("/api")
-                        .uri("http://localhost:8081"))
+                        .uri("http://product-microservice:8081"))
                 .build();
     }
 }
