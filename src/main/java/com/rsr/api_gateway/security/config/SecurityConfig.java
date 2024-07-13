@@ -1,6 +1,8 @@
 package com.rsr.api_gateway.security.config;
 
 import com.rsr.api_gateway.security.converter.CustomJwtAuthenticationConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +36,8 @@ public class SecurityConfig {
     private String kcLoginURI;
     private final Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter = new CustomJwtAuthenticationConverter();
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
 
@@ -54,9 +58,11 @@ public class SecurityConfig {
 
     @Bean
     public ServerAuthenticationEntryPoint authenticationEntryPoint() {
+        LOGGER.info("Entered authenticationEntryPoint");
         return (exchange, ex) -> {
             if (ex != null) {
                 // Perform redirect to Keycloak login
+                LOGGER.info("Entered if-Case. Redirecting...");
                 URI keycloakLoginUri = URI.create(kcLoginURI);
                 exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
                 exchange.getResponse().getHeaders().setLocation(keycloakLoginUri);
