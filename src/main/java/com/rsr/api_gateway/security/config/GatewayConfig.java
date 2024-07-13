@@ -16,27 +16,27 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@Configuration
-public class GatewayConfig {
-
-    @Bean
-    public ReactiveOAuth2AuthorizedClientManager authorizedClientManager(
-            ReactiveClientRegistrationRepository clientRegistrationRepository,
-            ReactiveOAuth2AuthorizedClientService authorizedClientService) {
-
-        return new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
-    }
-
-    @Bean
-    public RestClient.Builder restClientBuilder() {
-        return RestClient.builder();
-    }
-
-    @Bean
-    public RouteLocator myRoutes(RouteLocatorBuilder builder, WebClient.Builder webClientBuilder) {
-        return builder.routes()
-                .route(p -> p.path("/api")
-                        .uri("http://product-microservice:8081"))
-                .build();
-    }
-}
+//@Configuration
+//public class GatewayConfig {
+//
+//    @Bean
+//    public ReactiveOAuth2AuthorizedClientManager authorizedClientManager(
+//            ReactiveClientRegistrationRepository clientRegistrationRepository,
+//            ReactiveOAuth2AuthorizedClientService authorizedClientService) {
+//
+//        return new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(clientRegistrationRepository, authorizedClientService);
+//    }
+//
+//    @Bean
+//    public RestClient.Builder restClientBuilder() {
+//        return RestClient.builder();
+//    }
+//
+//    @Bean
+//    public RouteLocator myRoutes(RouteLocatorBuilder builder, WebClient.Builder webClientBuilder) {
+//        return builder.routes()
+//                .route(p -> p.path("/api")
+//                        .uri("http://product-microservice:8081"))
+//                .build();
+//    }
+//}
