@@ -51,9 +51,7 @@ public class SecurityConfig {
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter)
                         )
-                )
-                .securityContextRepository(NoOpServerSecurityContextRepository.getInstance())
-                .exceptionHandling(exceptionHandlingSpec -> exceptionHandlingSpec.authenticationEntryPoint(authenticationEntryPoint()));
+                );
 
         return http.build();
     }
