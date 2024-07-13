@@ -23,6 +23,7 @@ spring:
             scope: openid
         provider:
           keycloak:
+            login-uri: http://keycloak:8080/auth/realms/RockSolidRemedies/protocol/openid-connect/auth
             issuer-uri: http://keycloak:8080/auth/realms/RockSolidRemedies
             jwk-uri: http://keycloak:8080/auth/realms/RockSolidRemedies/protocol/openid-connect/certs
 

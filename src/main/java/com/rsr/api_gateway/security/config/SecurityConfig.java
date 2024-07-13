@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.NimbusReactiveJwtDecoder;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
@@ -16,7 +18,10 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import reactor.core.publisher.Mono;
+
+import java.net.URI;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -25,6 +30,8 @@ public class SecurityConfig {
     @Value("${spring.security.oauth2.client.provider.keycloak.jwk-uri}")
     private String jwkUri;
 
+    @Value("${spring.security.oauth2.client.provider.keycloak.login-uri}")
+    private String kcLoginURI;
     private final Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter = new CustomJwtAuthenticationConverter();
 
     @Bean
@@ -39,8 +46,24 @@ public class SecurityConfig {
                         .jwt(jwt -> jwt
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter)
                         )
-                );
+                )
+                .exceptionHandling(exceptionHandlingSpec -> exceptionHandlingSpec.authenticationEntryPoint(authenticationEntryPoint()));
+
         return http.build();
+    }
+
+    @Bean
+    public ServerAuthenticationEntryPoint authenticationEntryPoint() {
+        return (exchange, ex) -> {
+            if (ex != null) {
+                // Perform redirect to Keycloak login
+                URI keycloakLoginUri = URI.create(kcLoginURI);
+                exchange.getResponse().setStatusCode(HttpStatus.SEE_OTHER);
+                exchange.getResponse().getHeaders().setLocation(keycloakLoginUri);
+                return exchange.getResponse().setComplete();
+            }
+            return Mono.error(ex);
+        };
     }
 
     private Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
