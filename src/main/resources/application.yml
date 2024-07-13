@@ -30,13 +30,13 @@ spring:
     gateway:
       routes:
         - id: client_admin_route
-          uri: http://product-microservice:8082
+          uri: http://product-microservice:8080
           predicates:
             - Path=/admin/product/**
           metadata:
             roles: client_admin
         - id: client_user_route
-          uri: http://product-microservice:8082
+          uri: http://product-microservice:8080
           predicates:
             - Path=/product/**
           metadata:
