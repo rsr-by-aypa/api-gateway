@@ -72,16 +72,6 @@ public class SecurityConfig {
         };
     }
 
-    private Converter<Jwt, Mono<AbstractAuthenticationToken>> jwtAuthenticationConverter() {
-        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
-        grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
-        grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
-        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
-        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
-
-        return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
-    }
-
     @Bean
     public ReactiveJwtDecoder reactiveJwtDecoder() {
         return NimbusReactiveJwtDecoder
