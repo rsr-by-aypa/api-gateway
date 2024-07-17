@@ -42,4 +42,14 @@ spring:
             - Path=/product/**
           metadata:
             roles: client_user
+        - id: shopping_cart_route
+          uri: http://shopping-cart-microservice:8080
+          predicates:
+            - Path=/shopping-cart/**
+          filters:
+            - name: UserIdFilterShoppingCart
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
 
