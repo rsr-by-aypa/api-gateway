@@ -1,7 +1,6 @@
 package com.rsr.api_gateway.security.filter;
 
 import org.springframework.cloud.gateway.filter.GatewayFilter;
-import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.core.Authentication;
@@ -11,9 +10,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Component
-public class UserIdFilterShoppingCart extends AbstractGatewayFilterFactory<UserIdFilterShoppingCart.Config> {
+public class UserIdFilter extends AbstractGatewayFilterFactory<UserIdFilter.Config> {
 
-    public UserIdFilterShoppingCart() {
+    public UserIdFilter() {
         super(Config.class);
     }
 

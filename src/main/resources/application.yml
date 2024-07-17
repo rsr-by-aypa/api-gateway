@@ -30,12 +30,12 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: client_admin_route
+        - id: client_admin_route_product
           uri: http://product-microservice:8080
           predicates:
             - Path=/admin/product/**
           metadata:
-            roles: client_admin
+            roles: client_admin_product
         - id: client_user_route
           uri: http://product-microservice:8080
           predicates:
@@ -47,7 +47,14 @@ spring:
           predicates:
             - Path=/shopping-cart/**
           filters:
-            - name: UserIdFilterShoppingCart
+            - name: UserIdFilter
+        - id: order_route
+          uri: http://order-microservice:8080
+          predicates:
+            - Path=/orders/**
+          filters:
+            - name: UserIdFilter
+
 logging:
   level:
     org.springframework.cloud.gateway: DEBUG
