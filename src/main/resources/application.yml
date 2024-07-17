@@ -48,4 +48,8 @@ spring:
             - Path=/shopping-cart/**
           filters:
             - name: UserIdFilterShoppingCart
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    reactor.netty.http.client: DEBUG
 
