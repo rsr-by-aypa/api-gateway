@@ -47,5 +47,5 @@ spring:
           predicates:
             - Path=/shopping-cart/**
           filters:
-            - UserIdFilterShoppingCart
+            - name: UserIdFilterShoppingCart
 
